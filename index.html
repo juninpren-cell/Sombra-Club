@@ -42,7 +42,8 @@ section.lanc small{font-size:12px;letter-spacing:.2em;color:var(--mute);text-tra
 section.lanc h2{font-size:clamp(30px,4vw,44px);font-weight:500;margin:10px 0 36px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:40px 32px}
 .card[hidden]{display:none}
-.ph{aspect-ratio:5/4;background:#161616;display:grid;place-items:center;color:#777;font-size:13px;overflow:hidden}
+.ph{aspect-ratio:4/3;background:#fff;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.ph img{object-fit:contain}
 .card h3{font-size:26px;font-weight:500;margin:24px 0 18px}
 .card .lbl{font-size:12px;color:var(--mute)}
 .price{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:40px;margin:2px 0 14px}
@@ -124,10 +125,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 // ====== EDITE AQUI ======
 const WHATSAPP = "5588996136081"; // DDI + DDD + número, sem espaços
 const PRODUTOS = [
- {nome:"Camiseta Oversized God First", cat:"oversized", preco:"59,90", cores:["Preta","Branca"], padrao:"Branca", foto:"img/god-first.jpg", obs:"Foto da versão preta."},
- {nome:"Camiseta Oversized Dream Big", cat:"oversized", preco:"59,90", cores:["Preta","Branca"], padrao:"Preta", foto:"img/dream-big.jpg", obs:"Foto da versão preta."},
- {nome:"Camiseta Oversized Night Run", cat:"oversized", preco:"59,90", cores:["Preta","Branca"], padrao:"Preta", foto:"img/night-run.jpg", obs:"Foto da versão preta."},
- {nome:"Camiseta Oversized Moonbound", cat:"oversized", preco:"59,90", cores:["Preta","Branca"], padrao:"Preta", foto:"img/moonbound.jpg", obs:"Foto da versão preta."}
+ {nome:"Camiseta Oversized God First", cat:"oversized", preco:"59,90", cores:["Preta","Branca"], padrao:"Preta", fotos:{"Preta":"img/god-first-preta.jpg","Branca":"img/god-first-branca.jpg"}, obs:""},
+ {nome:"Camiseta Oversized Dream Big", cat:"oversized", preco:"59,90", cores:["Preta"], padrao:"Preta", fotos:{"Preta":"img/dream-big-preta.jpg"}, obs:""},
+ {nome:"Camiseta Oversized Naruto", cat:"oversized", preco:"59,90", cores:["Preta","Branca"], padrao:"Preta", fotos:{"Preta":"img/naruto-preta.jpg","Branca":"img/naruto-branca.jpg"}, obs:""},
+ {nome:"Camiseta Oversized GT-R", cat:"oversized", preco:"59,90", cores:["Preta"], padrao:"Preta", fotos:{"Preta":"img/gtr-preta.jpg"}, obs:""},
+ {nome:"Camiseta Oversized Keep Going", cat:"oversized", preco:"59,90", cores:["Preta"], padrao:"Preta", fotos:{"Preta":"img/keep-going-preta.jpg"}, obs:""},
+ {nome:"Camiseta Oversized Faith", cat:"oversized", preco:"59,90", cores:["Preta"], padrao:"Preta", fotos:{"Preta":"img/faith-preta.jpg"}, obs:""}
 ];
 const TAMANHOS = ["P","M","G","GG"];
 // ========================
@@ -137,7 +140,7 @@ PRODUTOS.forEach((p,i)=>{
   const el = document.createElement("article");
   el.className = "card"; el.dataset.cat = p.cat;
   el.innerHTML = `
-   <div class="ph"><img src="${p.foto}" alt="${p.nome}" loading="lazy" onerror="this.remove()"></div>
+   <div class="ph"><img alt="${p.nome}" loading="lazy"></div>
    <h3>${p.nome} <span class="cor-nome"></span></h3>
    <div class="lbl">Preço de lançamento</div>
    <div class="price">R$ ${p.preco}</div>
@@ -153,6 +156,7 @@ PRODUTOS.forEach((p,i)=>{
   let cor = p.padrao || p.cores[0], tam = tamanhos[0];
   const render = () => {
     el.querySelector(".cor-txt").textContent = cor;
+    const im = el.querySelector(".ph img"); im.src = p.fotos[cor]; im.alt = p.nome+" "+cor;
     el.querySelector(".tam-txt").textContent = tam;
     opts.querySelectorAll(".opt").forEach(b=>b.setAttribute("aria-pressed", b.textContent===cor));
     tams.querySelectorAll(".opt").forEach(b=>b.setAttribute("aria-pressed", b.textContent===tam));
